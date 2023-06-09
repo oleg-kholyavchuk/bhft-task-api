@@ -1,0 +1,9 @@
+package com.bhft.constant;
+
+public class Constant {
+    public static final String TODOS = "/todos";
+    public static final int STATUS_200 = 200;
+    public static final int STATUS_204 = 204;
+    public static final int STATUS_201 = 201;
+    public static final int STATUS_400 = 400;
+}
