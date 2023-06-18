@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Props {
-    private static final Properties PROPERTIES= new Properties();
+    private static final Properties PROPERTIES = new Properties();
     private static final Logger LOG = LoggerFactory.getLogger(Props.class);
 
     static {
@@ -23,11 +23,9 @@ public class Props {
 
     public static String getProperty(String key) {
         String property = System.getProperty(key);
-        if (!(property == null)) {
-            return property;
-        } else {
+        if (property != null) return property;
+
             LOG.warn("The properties value is not set");
             throw new IllegalArgumentException();
-        }
     }
 }

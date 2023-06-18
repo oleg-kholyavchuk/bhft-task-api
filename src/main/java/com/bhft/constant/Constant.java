@@ -1,6 +1,5 @@
 package com.bhft.constant;
 
-@SuppressWarnings("All")
 public class Constant {
     public static final String URL = "http://localhost:8080";
     public static final String TODOS = "/todos";

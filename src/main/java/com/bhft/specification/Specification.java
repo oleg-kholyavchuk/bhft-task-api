@@ -9,7 +9,6 @@ import lombok.SneakyThrows;
 
 import static com.bhft.constant.Constant.URL;
 
-@SuppressWarnings("All")
 public class Specification {
     @SneakyThrows
     public static String jsonToString(Object o) {
