@@ -30,7 +30,6 @@
         <rest.assured>4.4.0</rest.assured>
         <assertj.core>3.23.1</assertj.core>
         <lombok.version>1.18.24</lombok.version>
-        <aspectj.version>1.8.10</aspectj.version>
     </properties>
     <dependencies>
         <dependency>
@@ -119,26 +118,8 @@
                 <version>2.22.2</version>
                 <configuration>
                     <argLine>
-<!--                        &#45;&#45;illegal-access=permit-->
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                        --illegal-access=permit
                     </argLine>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjweaver</artifactId>
-                        <version>${aspectj.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <encoding>UTF-8</encoding>
-                    <source>11</source>
-                    <target>11</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -161,34 +142,6 @@
                         https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/${allure.version}/allure-commandline-${allure.version}.zip
                     </allureDownloadUrl>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.lazerycode.jmeter</groupId>
-                <artifactId>jmeter-maven-plugin</artifactId>
-                <version>3.7.0</version>
-                <executions>
-                    <!-- Generate JMeter configuration -->
-                    <execution>
-                        <id>configuration</id>
-                        <goals>
-                            <goal>configure</goal>
-                        </goals>
-                    </execution>
-                    <!-- Run JMeter tests -->
-                    <execution>
-                        <id>jmeter-tests</id>
-                        <goals>
-                            <goal>jmeter</goal>
-                        </goals>
-                    </execution>
-                    <!-- Fail build on errors in test -->
-                    <execution>
-                        <id>jmeter-check-results</id>
-                        <goals>
-                            <goal>results</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
