@@ -7,16 +7,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BaseTest {
-    protected SoftAssertions softAssertions;
+    protected SoftAssertions soft;
     public final Logger log = LoggerFactory.getLogger(BaseTest.class);
 
     @BeforeEach
     public void softAssert() {
-        softAssertions = new SoftAssertions();
+        soft = new SoftAssertions();
     }
 
     @AfterEach
     public void softAssertionsAll() {
-        softAssertions.assertAll();
+        soft.assertAll();
     }
 }

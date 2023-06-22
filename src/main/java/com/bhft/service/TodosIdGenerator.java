@@ -9,19 +9,17 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
-import static com.bhft.constant.Constant.STATUS_204;
-import static com.bhft.constant.Constant.TODOS;
+import static com.bhft.constant.Constant.*;
 import static io.restassured.RestAssured.given;
 
 
-public enum WorkWithTodoId {
+public enum TodosIdGenerator {
     INSTANCE;
-    private final List<Long> testId = new CopyOnWriteArrayList<>();
-    private static final String URL = Props.getProperty("url");
+    private final List<Long> listIds = new CopyOnWriteArrayList<>();
     private static final String DEFAULT_LOGIN = Props.getProperty("login");
     private static final String DEFAULT_PASSWORD = Props.getProperty("password");
 
-    public synchronized long generateId() {
+    public synchronized long generate() {
         Response response = RestAssured
                 .given()
                 .baseUri(URL)
@@ -34,17 +32,17 @@ public enum WorkWithTodoId {
         List<Long> listId = response.body().jsonPath().getList(".", TodoModel.class)
                 .stream().map(TodoModel::getId).collect(Collectors.toList());
 
-        long randomValue = (long) (Math.random() * (100 + 1));
+        long randomValue = (long) ((Math.random() * 99) + 1);
 
-        if (listId.contains(randomValue) || testId.contains(randomValue)) {
-            return generateId();
+        if (listId.contains(randomValue) || listIds.contains(randomValue)) {
+            return generate();
         }
-        testId.add(randomValue);
+        listIds.add(randomValue);
         return randomValue;
     }
 
-    public synchronized void removeId(long id) {
-        testId.remove(id);
+    public synchronized void remove(long id) {
+        listIds.remove(id);
 
         Response response = RestAssured
                 .given()
