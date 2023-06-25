@@ -30,6 +30,10 @@
         <rest.assured>4.4.0</rest.assured>
         <assertj.core>3.23.1</assertj.core>
         <lombok.version>1.18.24</lombok.version>
+        <surefire.plugin>2.22.2</surefire.plugin>
+        <failsafe.plugin>2.22.2</failsafe.plugin>
+        <allure.maven>2.10.0</allure.maven>
+        <jmeter.maven.plugin>3.7.0</jmeter.maven.plugin>
     </properties>
     <dependencies>
         <dependency>
@@ -115,7 +119,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>${surefire.plugin}</version>
                 <configuration>
                     <argLine>
                         --illegal-access=permit
@@ -125,7 +129,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>${failsafe.plugin}</version>
                 <configuration>
                     <argLine>
                         --illegal-access=permit
@@ -135,13 +139,50 @@
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
-                <version>2.10.0</version>
+                <version>${allure.maven}</version>
                 <configuration>
                     <reportVersion>${allure.version}</reportVersion>
                     <allureDownloadUrl>
                         https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/${allure.version}/allure-commandline-${allure.version}.zip
                     </allureDownloadUrl>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.lazerycode.jmeter</groupId>
+                <artifactId>jmeter-maven-plugin</artifactId>
+                <version>${jmeter.maven.plugin}</version>
+                <configuration>
+                    <errorRateThresholdInPercent>10</errorRateThresholdInPercent>
+                    <jmeterExtensions>
+                        <artifact>kg.apc:jmeter-plugins-graphs-basic:2.0</artifact>
+                        <artifact>kg.apc:jmeter-plugins-graphs-dist:2.0</artifact>
+                        <artifact>kg.apc:jmeter-plugins-synthesis:2.2</artifact>
+                        <artifact>kg.apc:jmeter-plugins-casutg:2.10</artifact>
+                    </jmeterExtensions>
+                </configuration>
+                <executions>
+                    <!-- Generate JMeter configuration -->
+                    <execution>
+                        <id>configuration</id>
+                        <goals>
+                            <goal>configure</goal>
+                        </goals>
+                    </execution>
+                    <!-- Run JMeter tests -->
+                    <execution>
+                        <id>jmeter-tests</id>
+                        <goals>
+                            <goal>jmeter</goal>
+                        </goals>
+                    </execution>
+                    <!-- Fail build on errors in test -->
+                    <execution>
+                        <id>jmeter-check-results</id>
+                        <goals>
+                            <goal>results</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
